@@ -55,8 +55,9 @@ export async function PATCH(req: NextRequest) {
       const adversaryPlayers = foundTeams.find((team: Team) => team.name !== name).players;
       const idsPlayers = players.map((p: Player) => p.id.toString());
       const duplicates = adversaryPlayers.filter((p: Player) => idsPlayers.includes(p.id));
+      const duplicatesT = foundTeam.players.filter((p: Player) => idsPlayers.includes(p.id));
       const MAX_PLAYERS = 5;
-      if (duplicates.length > 0) {
+      if (duplicates.length > 0 || duplicatesT.length > 0) {
         return NextResponse.json(
           { message: 'no duplicates allowed', success: false },
           { status: HttpStatusCode.BadRequest }
