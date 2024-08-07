@@ -1,0 +1,33 @@
+.soccer-field {
+  width: 100%;
+  height: 600px;
+  background-color: #4caf50;
+  display: flex;
+  border: 2px solid white;
+}
+
+.team {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.left-team {
+  align-items: flex-start;
+}
+
+.right-team {
+  align-items: flex-end;
+}
+
+.players {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.player {
+  text-align: center;
+  margin: 10px;
+}
