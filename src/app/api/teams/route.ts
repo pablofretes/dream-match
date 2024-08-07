@@ -2,6 +2,7 @@ import { HttpStatusCode } from 'axios';
 import connectMongo from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import Teams from '@/models/teams/team.model';
+import { Team } from '@/interfaces/team';
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest) {
     if (body.name) {
       const team = await Teams.create({ name: body.name });
       return NextResponse.json(
-        { data: team, message: 'Your team has been created', success: true, items: teams.length + 1 },
+        { data: team, message: 'Your team has been created', success: true },
         { status: HttpStatusCode.Created }
       );
     }
@@ -57,8 +58,12 @@ export async function PATCH(req: NextRequest) {
         );
       }
       const team = await Teams.findOneAndUpdate({ name }, { $push: { players } }, { new: true });
+      const MAX_TEAMS = 2;
+      const foundTeams = await Teams.find({});
+      const areTeamsFull =
+        foundTeams.length === MAX_TEAMS && foundTeams.every((team: Team) => team.players.length === MAX_PLAYERS);
       return NextResponse.json(
-        { data: team, message: 'Your player has been added to your team', success: true },
+        { data: team, message: 'Your player has been added to your team', success: true, areTeamsFull },
         { status: HttpStatusCode.Ok }
       );
     }

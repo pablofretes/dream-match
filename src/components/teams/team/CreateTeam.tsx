@@ -15,13 +15,8 @@ export default function CreateTeam() {
     e.preventDefault();
     const res = await axios.post(`/api/teams`, { name });
     if (res.status === 201) {
-      const MAX_TEAMS = 2;
-      if (res.data.items === MAX_TEAMS) {
-        router.push('/congratulations');
-      } else {
-        router.push('/teams');
-        router.refresh();
-      }
+      router.push('/teams');
+      router.refresh();
     }
   };
 

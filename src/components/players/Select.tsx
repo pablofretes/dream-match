@@ -43,10 +43,14 @@ export default function Select({ options, teamName, closeModal }: SelectProps) {
     if (players.length > MAX_PLAYERS) return;
     const res = await axios.patch(`/api/teams?name=${teamName}`, { players });
     if (res.status === 200) {
-      closeModal();
-      router.refresh();
-      //TODO - fix this hack
-      location.reload();
+      if (res.data.areTeamsFull) {
+        router.push('/congratulations');
+      } else {
+        closeModal();
+        router.refresh();
+        //TODO - fix this hack
+        location.reload();
+      }
     }
   };
   return (
