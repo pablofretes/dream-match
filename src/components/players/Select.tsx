@@ -41,7 +41,7 @@ export default function Select({ options, teamName, closeModal }: SelectProps) {
     const MIN_PLAYERS = 5;
     if (players.length < MIN_PLAYERS) return;
     if (players.length > MAX_PLAYERS) return;
-    const res = await axios.patch(`http://localhost:3000/api/teams?name=${teamName}`, { players });
+    const res = await axios.patch(`/api/teams?name=${teamName}`, { players });
     if (res.status === 200) {
       closeModal();
       router.refresh();

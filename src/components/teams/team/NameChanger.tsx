@@ -13,7 +13,7 @@ export default function NameChanger({ teamName, closeModal }: { teamName: string
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const res = await axios.patch(`http://localhost:3000/api/teams?name=${teamName}`, { newName: name });
+    const res = await axios.patch(`/api/teams?name=${teamName}`, { newName: name });
     if (res.status === 200) {
       closeModal();
       router.refresh();

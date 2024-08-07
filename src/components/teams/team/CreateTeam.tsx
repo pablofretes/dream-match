@@ -13,7 +13,7 @@ export default function CreateTeam() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const res = await axios.post('http://localhost:3000/api/teams', { name });
+    const res = await axios.post(`/api/teams`, { name });
     if (res.status === 201) {
       const MAX_TEAMS = 2;
       if (res.data.items === MAX_TEAMS) {
