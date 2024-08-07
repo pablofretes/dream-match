@@ -49,7 +49,8 @@ export async function PATCH(req: NextRequest) {
     }
     if (name && players) {
       const foundTeam = await Teams.findOne({ name });
-      if (foundTeam.players.length + players.length > 5) {
+      const MAX_PLAYERS = 5;
+      if (foundTeam.players.length + players.length > MAX_PLAYERS) {
         return NextResponse.json(
           { message: 'max amount of players reached', success: false },
           { status: HttpStatusCode.BadRequest }

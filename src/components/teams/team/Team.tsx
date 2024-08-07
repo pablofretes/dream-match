@@ -12,13 +12,15 @@ interface TeamProps {
 }
 
 export default function Team({ name, players, isLeftSide }: TeamProps) {
+  const MAX_PLAYERS = 5;
+  const MIN_PLAYERS = 1;
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">{name}</h1>
       <div className={`team ${isLeftSide ? 'left-team' : 'right-team'} p-4 bg-gray-100 rounded-lg shadow-md`}>
         <h2 className="text-xl font-semibold mb-3">{name}</h2>
         <div className="players space-y-2">
-          {players.length > 0 &&
+          {players.length >= MIN_PLAYERS &&
             players.map((player, index) => (
               <div key={index} className="player flex items-center space-x-2">
                 <Image
@@ -33,7 +35,7 @@ export default function Team({ name, players, isLeftSide }: TeamProps) {
             ))}
         </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-          {players.length < 5 && <AddPlayerModal teamName={name} players={players} />}
+          {players.length < MAX_PLAYERS && <AddPlayerModal teamName={name} players={players} />}
           <NameChangeModal teamName={name} />
           <DeleteTeam teamName={name} />
         </div>

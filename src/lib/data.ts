@@ -20,7 +20,8 @@ export async function fetchPlayer(name: string) {
         img: player.player_image,
       };
     });
-    data.length = 15;
+    const LIMIT = 25;
+    data.length = LIMIT;
     return data;
   } catch (error) {
     console.error(error);

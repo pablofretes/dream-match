@@ -37,8 +37,10 @@ export default function Select({ options, teamName, closeModal }: SelectProps) {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (players.length === 0) return;
-    if (players.length > 5) return;
+    const MAX_PLAYERS = 5;
+    const MIN_PLAYERS = 5;
+    if (players.length < MIN_PLAYERS) return;
+    if (players.length > MAX_PLAYERS) return;
     const res = await axios.patch(`http://localhost:3000/api/teams?name=${teamName}`, { players });
     if (res.status === 200) {
       closeModal();
