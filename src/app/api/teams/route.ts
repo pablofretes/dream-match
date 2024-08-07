@@ -3,6 +3,7 @@ import connectMongo from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import Teams from '@/models/teams/team.model';
 import { Team } from '@/interfaces/team';
+import { Player } from '@/interfaces/players';
 
 export async function POST(req: NextRequest) {
   try {
@@ -49,8 +50,18 @@ export async function PATCH(req: NextRequest) {
       );
     }
     if (name && players) {
+      const foundTeams = await Teams.find({});
       const foundTeam = await Teams.findOne({ name });
+      const adversaryPlayers = foundTeams.find((team: Team) => team.name !== name).players;
+      const idsPlayers = players.map((p: Player) => p.id.toString());
+      const duplicates = adversaryPlayers.filter((p: Player) => idsPlayers.includes(p.id));
       const MAX_PLAYERS = 5;
+      if (duplicates.length > 0) {
+        return NextResponse.json(
+          { message: 'no duplicates allowed', success: false },
+          { status: HttpStatusCode.BadRequest }
+        );
+      }
       if (foundTeam.players.length + players.length > MAX_PLAYERS) {
         return NextResponse.json(
           { message: 'max amount of players reached', success: false },
@@ -59,9 +70,9 @@ export async function PATCH(req: NextRequest) {
       }
       const team = await Teams.findOneAndUpdate({ name }, { $push: { players } }, { new: true });
       const MAX_TEAMS = 2;
-      const foundTeams = await Teams.find({});
+      const adversaryAmount = foundTeams.find((team: Team) => team.name !== name).players.length;
       const areTeamsFull =
-        foundTeams.length === MAX_TEAMS && foundTeams.every((team: Team) => team.players.length === MAX_PLAYERS);
+        foundTeams.length === MAX_TEAMS && adversaryAmount === MAX_PLAYERS && team.players.length === MAX_PLAYERS;
       return NextResponse.json(
         { data: team, message: 'Your player has been added to your team', success: true, areTeamsFull },
         { status: HttpStatusCode.Ok }
