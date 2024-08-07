@@ -13,6 +13,8 @@ export default function DeleteTeam({ teamName }: DeleteTeamProps) {
     const res = await axios.delete(`http://localhost:3000/api/teams?name=${teamName}`);
     if (res.status === 200) {
       router.refresh();
+      //TODO - fix this hack
+      location.reload();
     }
   };
 

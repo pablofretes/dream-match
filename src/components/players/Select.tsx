@@ -43,6 +43,8 @@ export default function Select({ options, teamName, closeModal }: SelectProps) {
     if (res.status === 200) {
       closeModal();
       router.refresh();
+      //TODO - fix this hack
+      location.reload();
     }
   };
   return (

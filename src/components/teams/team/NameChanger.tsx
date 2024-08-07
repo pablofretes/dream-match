@@ -17,6 +17,8 @@ export default function NameChanger({ teamName, closeModal }: { teamName: string
     if (res.status === 200) {
       closeModal();
       router.refresh();
+      //TODO - fix this hack
+      location.reload();
     }
   };
 

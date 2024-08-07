@@ -20,6 +20,7 @@ export default function CreateTeam() {
         router.push('/congratulations');
       } else {
         router.push('/teams');
+        router.refresh();
       }
     }
   };
